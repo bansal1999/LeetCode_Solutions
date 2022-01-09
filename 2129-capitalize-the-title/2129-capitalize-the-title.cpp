@@ -1,23 +1,32 @@
 class Solution {
 public:
-     string capitalizeTitle(string s) {
+    string capitalizeTitle(string title) {
+        int i =0, n = title.size();
         
-        int i=0,n=s.length();
-        
-        while(i<n){
-            int j=i;
-            while(j<n and s[j]!=' ')j++;
-            if((j-i) >2){
-                s[i]=toupper(s[i]);
+        while(i < n)
+        {
+            int j = i;
+            
+            while(j < n && title[j] != ' ')
+            {
+                j++;
+            }
+            
+            
+            if((j - i) > 2 )
+            {
+                title[i] = toupper(title[i]);
                 i++;
             }
-            while(i!=j){
-                s[i]=tolower(s[i]);
+            
+            while(i != j)
+            {
+                title[i] = tolower(title[i]);
                 i++;
             }
-            i=j+1;
+            i = j +1;
         }
         
-        return s; 
+        return title;
     }
 };
