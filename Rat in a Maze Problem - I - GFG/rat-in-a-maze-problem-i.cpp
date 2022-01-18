@@ -10,60 +10,65 @@ using namespace std;
 
 class Solution{
     public:
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        // Your code goes here
+        vector<string> ans;
+        string currPath;
+        generatePath(m, n, 0, 0, currPath, ans);
+        
+        return ans;
+    }
     
-    vector<string> findPath(vector<vector<int>> &grid, int n) {
-            vector<string> paths;
-            string currentPath;
+    void generatePath(vector<vector<int>> &grid, int &n, int currRow, int currCol, string &currPath, vector<string> &path )
+    {
+        // base case -> invalid cells
+        if(currRow >= n || currRow < 0 || currCol >= n || currCol < 0)
+            return ;
             
-            GenerateAllPaths(grid, n, 0, 0, currentPath, paths);
+        // cell blocked condition
+        if(grid[currRow][currCol] == 0)
+            return;
             
-            return paths;
-        }
-    
-    // Check currentPath Pass type
-    void GenerateAllPaths(vector<vector<int>> &grid, int &n, int currentRow, int currentCol, string &currentPath, vector<string> &paths) {
-        if(currentRow < 0 || currentRow >=n || currentCol < 0 || currentCol >=n) {
-            return;
+        //reached destination --> pushing the current string to answer
+        if(currRow == n-1 && currCol == n-1)
+        {
+              path.push_back(currPath);
+              return;
         }
         
-        if(grid[currentRow][currentCol] == 0) {
-            return;
-        }
+        //marking the current cell visited to avoid infinite recurssive calls
+        grid[currRow][currCol] = 0;
         
-        if(currentRow == n-1 && currentCol == n-1) {
-            paths.push_back(currentPath);
-            return;
-        }
+        //up movement
+        currPath += "U";
+        generatePath(grid, n, currRow -1, currCol, currPath, path);
+        currPath.pop_back();
         
-        grid[currentRow][currentCol] = 0;
+        //down movement
+        currPath += "D";
+        generatePath(grid, n, currRow + 1, currCol, currPath, path);
+        currPath.pop_back();
         
-        // Down Movement
-        currentPath += "D";
-        GenerateAllPaths(grid, n, currentRow+1, currentCol, currentPath, paths);
-        currentPath.pop_back();
         
-        // Left Movement
-        currentPath += "L";
-        GenerateAllPaths(grid, n, currentRow, currentCol-1, currentPath, paths);
-        currentPath.pop_back();
+        //left movement
+        currPath += "L";
+        generatePath(grid, n, currRow , currCol - 1, currPath, path);
+        currPath.pop_back();
         
-        // Right Movement
-        currentPath += "R";
-        GenerateAllPaths(grid, n, currentRow, currentCol+1, currentPath, paths);
-        currentPath.pop_back();
         
-        // Up Movement
-        currentPath += "U";
-        GenerateAllPaths(grid, n, currentRow-1, currentCol, currentPath, paths);
-        currentPath.pop_back();
-        
-        grid[currentRow][currentCol] = 1;
+        //right movement
+        currPath += "R";
+        generatePath(grid, n, currRow , currCol + 1, currPath, path);
+        currPath.pop_back();
+ 
+        //BackTracking step
+        grid[currRow][currCol] = 1;
         
         return;
+
     }
-
+    
 };
-
     
 
 
