@@ -17,7 +17,7 @@ public:
         set<vector<int>>ans;
         vector<int>vec;
         sort(nums.begin(),nums.end());
-         generateSubsets(nums,0,vec,ans);
+        generateSubsets(nums,0,vec,ans);
         vector<vector<int>> numbers{ans.begin(), ans.end()};
          return numbers;
     }
