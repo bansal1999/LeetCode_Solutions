@@ -37,5 +37,6 @@ public:
         {
             helper(root -> children[i], ans);
         }
+        return;
     }
 };
