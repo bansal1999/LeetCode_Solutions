@@ -12,7 +12,7 @@
 class Solution {
 public:
     
-    void findNode(TreeNode* root, int x, int y, int level[2], int parent[2], int currLevel, TreeNode* currParent)
+    void findNode(TreeNode* root, int x, int y, int level[2], TreeNode* parent[2], int currLevel, TreeNode* currParent)
     {
         if(root == NULL)
             return;
@@ -20,13 +20,13 @@ public:
         if(root -> val == x)
         {
             level[0] = currLevel;
-            parent[0] = currParent -> val;
+            parent[0] = currParent;
         }
         
         if(root -> val == y)
         {
             level[1] = currLevel;
-            parent[1] = currParent -> val;
+            parent[1] = currParent;
         }
         
         findNode(root -> left, x, y, level, parent, currLevel + 1, root);
@@ -38,7 +38,7 @@ public:
     
     bool isCousins(TreeNode* root, int x, int y) {
         int level[2] = {-1, -1};
-        int parent[2] = {-1, -1};
+        TreeNode* parent[2] = {NULL, NULL};
         
         findNode(root, x, y, level, parent, 0, new TreeNode(-1));
         
