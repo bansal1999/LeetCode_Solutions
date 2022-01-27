@@ -40,7 +40,7 @@ public:
         int level[2] = {-1, -1};
         TreeNode* parent[2] = {NULL, NULL};
         
-        findNode(root, x, y, level, parent, 0, new TreeNode(-1));
+        findNode(root, x, y, level, parent, 0, NULL);
         
         if(level[0] == level[1] && parent[0] != parent[1])
             return true;
