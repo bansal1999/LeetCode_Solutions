@@ -115,8 +115,7 @@ class Solution {
            int horiDist = it.second;
            
            mp[horiDist] = currNode -> data;
-           if(mp.find(horiDist) == mp.end())
-                mp[horiDist] = currNode -> data;
+         
             
             if(currNode -> left != NULL)
                 q.push({currNode -> left, horiDist -1 });
