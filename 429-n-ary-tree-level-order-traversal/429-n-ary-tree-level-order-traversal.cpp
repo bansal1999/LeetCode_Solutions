@@ -43,9 +43,9 @@ public:
                 currSize--;
                 
                
-                for(int i =0; i< currNode -> children.size(); i++)
+                for(auto child: currNode->children)
                 {
-                    q.push(currNode->children[i]);
+                    q.push(child);
                 }
                 
             }
