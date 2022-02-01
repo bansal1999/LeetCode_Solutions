@@ -1,33 +1,31 @@
 class Solution {
 public:
     vector<int> maxScoreIndices(vector<int>& nums) {
-        int n = nums.size();
-        
-        vector<int> preSum(n + 1);
-        preSum[0]=0;
+        int rightOnes = accumulate(nums.begin() , nums.end(), 0);
+        int leftZeros = 0, maxSum = 0, currSum =0;
         
         vector<int> res;
-        for(int i =1; i < n + 1; ++i)
+        for(int i=0; i<= nums.size(); i++)
         {
-            preSum[i] = preSum[i-1] + nums[i - 1];
-        }
-        
-        long long maxScore = -1, leftZeros =0, rightOnes = 0, currScore = 0;
-        
-        for(int i =0; i< n +1; ++i)
-        {
-            leftZeros = i - preSum[i];
-            rightOnes = preSum[n] - preSum[i];
-            currScore = leftZeros + rightOnes;
-            
-            if(currScore > maxScore)
+            currSum = leftZeros + rightOnes;
+            if(currSum > maxSum)
             {
                 res.clear();
-                maxScore = currScore;
-                
-            }
-            if(currScore == maxScore)
+                maxSum = currSum;
                 res.push_back(i);
+            }
+            else if(currSum == maxSum)
+            {
+                res.push_back(i);
+            }
+            
+            if(i != nums.size())
+            {
+                if(nums[i] == 0)
+                    leftZeros++;
+                if(nums[i] == 1)
+                    rightOnes--;
+            }
         }
         
         return res;
