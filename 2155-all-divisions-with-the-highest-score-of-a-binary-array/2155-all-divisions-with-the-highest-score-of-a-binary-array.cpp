@@ -3,12 +3,13 @@ public:
     vector<int> maxScoreIndices(vector<int>& nums) {
         int n = nums.size();
         
-        vector<int> preSum(n + 1, 0);
+        vector<int> preSum(n + 1);
+        preSum[0]=0;
         
         vector<int> res;
-        for(int i =1; i< n+ 1; ++i)
+        for(int i =1; i < n + 1; ++i)
         {
-            preSum[i] = preSum[i-1] + nums[i-1];
+            preSum[i] = preSum[i-1] + nums[i - 1];
         }
         
         long long maxScore = -1, leftZeros =0, rightOnes = 0, currScore = 0;
