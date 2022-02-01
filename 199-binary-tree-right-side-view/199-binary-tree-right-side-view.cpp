@@ -11,28 +11,26 @@
  */
 class Solution {
 public:
-    void helper(TreeNode *root, int level, set<int> &s, vector<int> &ans)
+    void reverseInorder(TreeNode* root, int level, vector<int> &res)
     {
-        if(root ==NULL)
+        if(root == NULL)
             return;
-        
-        if(s.find(level) == s.end())
+        if(res.size() == level)
         {
-            s.insert(level);
-            ans.push_back(root->val);
+            res.push_back(root -> val);
         }
+        reverseInorder(root -> right, level + 1, res);
+        reverseInorder(root -> left, level + 1, res);
         
-        helper(root-> right, level + 1, s, ans);
-        helper(root -> left, level + 1, s, ans);
         
-        return;
+        
     }
     
     
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans;
-        set<int> s;
-        helper(root, 1, s, ans);
-        return ans;
+        vector<int> res;
+        reverseInorder(root, 0, res);
+        
+        return res;
     }
 };
