@@ -7,53 +7,85 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-
-
 class Solution {
 public:
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        set<TreeNode*> s;
-        vector<int> ans;
-        unordered_map<TreeNode*, TreeNode*> parentMap;
-        
-        populateMap(root, NULL, parentMap);
-        printkDistance(target, k, s, ans, parentMap );
-        
-        return ans;
-    }
-    
-    void populateMap(TreeNode* currNode, TreeNode* currParent, unordered_map<TreeNode*, TreeNode*> &parentMap)
+    void markParent(TreeNode* root, unordered_map<TreeNode*, TreeNode*> &parentStore)
     {
-        if(currNode == NULL)
-            return;
+        queue<TreeNode*> q;
+        q.push(root);
         
-        parentMap[currNode] = currParent;
-        populateMap(currNode -> left, currNode, parentMap);
-        populateMap(currNode -> right, currNode, parentMap);
-        
-        return;
-    }
-    
-    void printkDistance(TreeNode* currNode, int k, set<TreeNode*> &s, vector<int> &ans, unordered_map<TreeNode*, TreeNode*> &parentMap)
-    {
-        if(currNode == NULL || s.find(currNode) != s.end() || k < 0)
-            return;
-        
-        s.insert(currNode);
-        
-        if(k == 0)
+        while(!q.empty())
         {
-            ans.push_back(currNode -> val);
-            return;
+            TreeNode* currNode = q.front();
+            q.pop();
+            if(currNode -> left)
+            {
+                parentStore[currNode -> left] = currNode;
+                q.push(currNode -> left);
+                
+            }
+            
+            if(currNode -> right)
+            {
+                parentStore[currNode -> right] = currNode;
+                q.push(currNode -> right) ;
+            }
+            
+        }
+    }
+    
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*> parentStore;
+        markParent(root,parentStore);
+        
+        unordered_map<TreeNode*, bool> visited;
+        queue<TreeNode*> qu;
+        qu.push(target);
+        visited[target] = true;
+        int currLvl = 0;
+        
+        while(!qu.empty())
+        {
+            int sz = qu.size();
+            if(currLvl == k)
+                break;
+            
+            currLvl += 1;
+            
+            for(int i=0; i< sz; i++)
+            {
+                TreeNode* curr = qu.front();
+                qu.pop();
+                
+                if(curr -> left && !visited[curr -> left])
+                {
+                    qu.push(curr -> left);
+                    visited[curr -> left] = true;
+                }
+                
+                if(curr -> right && !visited[curr -> right])
+                {
+                    qu.push(curr -> right);
+                    visited[curr -> right]  = true;
+                }
+                
+                if(parentStore[curr] && !visited[parentStore[curr]])
+                {
+                    qu.push(parentStore[curr]);
+                    visited[parentStore[curr]] = true;
+                }
+            }
         }
         
-        printkDistance(currNode->left, k - 1, s, ans, parentMap);
-        printkDistance(currNode->right, k - 1, s, ans, parentMap);
-        printkDistance(parentMap[currNode], k - 1, s, ans, parentMap);
+        vector<int> res;
+        while(!qu.empty())
+        {
+            TreeNode* current = qu.front();
+            qu.pop();
+            
+            res.push_back(current -> val);
+        }
+        return res;
         
-        return;
     }
-    
-    
 };
-
