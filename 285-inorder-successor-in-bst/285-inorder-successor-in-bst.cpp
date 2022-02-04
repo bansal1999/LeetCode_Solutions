@@ -11,14 +11,14 @@ class Solution {
 public:
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
         
+         if(root==NULL || p==NULL)
+            return NULL;
+        
         TreeNode* successor = NULL;
-        while(root != NULL)
+        while(root)
         {
-            if(p -> val >= root->val)
-            {
+            if(root->val <= p->val)
                 root = root->right;
-                
-            }
             else
             {
                 successor = root;
