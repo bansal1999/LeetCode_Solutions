@@ -43,8 +43,8 @@ public:
         
         TreeNode* root = new TreeNode(arr[mid]);
         
-        if(left == right)
-            return root;
+        // if(left == right)
+        //     return root;
         
         root->left = helper(left, mid -1);
         root-> right = helper(mid + 1, right);
