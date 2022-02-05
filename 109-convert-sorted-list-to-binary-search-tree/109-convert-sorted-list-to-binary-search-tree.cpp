@@ -19,37 +19,31 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
-
-    
-    TreeNode* helper(vector<int> arr, int left, int right)
+    TreeNode* helper(ListNode* head, ListNode* tail)
     {
-        if(left > right)
-        {
+        if(head == tail)
             return NULL;
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast != tail && fast -> next != tail)
+        {
+            slow = slow -> next;
+            fast = fast -> next -> next;
         }
         
-        int mid = (left + right)/2;
-        
-        TreeNode* root = new TreeNode(arr[mid]);        
-        root->left = helper(arr,left, mid -1);
-        root-> right = helper(arr, mid + 1, right);
+        TreeNode* root = new  TreeNode(slow -> val);
+        root -> left = helper(head, slow);
+        root -> right = helper(slow -> next, tail);
         
         return root;
+        
     }
-     
+    
     TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> arr;
-        // sortedArray(head, arr);
-        
-         while(head != NULL)
-        {
-            arr.push_back(head -> val);
-            head = head -> next;
-        }
-        
-        return helper(arr, 0, arr.size() -1);
+        return helper(head, NULL);
     }
 };
