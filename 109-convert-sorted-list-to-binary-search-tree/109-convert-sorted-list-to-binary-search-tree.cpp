@@ -22,8 +22,8 @@
 
 class Solution {
 public:
-    vector<int> arr;
-    void sortedArray(ListNode* &head)
+    
+    void sortedArray(ListNode* &head , vector<int> &arr)
     {
         while(head != NULL)
         {
@@ -32,7 +32,7 @@ public:
         }
     }
     
-    TreeNode* helper(int left, int right)
+    TreeNode* helper(vector<int> arr, int left, int right)
     {
         if(left > right)
         {
@@ -41,21 +41,18 @@ public:
         
         int mid = (left + right)/2;
         
-        TreeNode* root = new TreeNode(arr[mid]);
-        
-        // if(left == right)
-        //     return root;
-        
-        root->left = helper(left, mid -1);
-        root-> right = helper(mid + 1, right);
+        TreeNode* root = new TreeNode(arr[mid]);        
+        root->left = helper(arr,left, mid -1);
+        root-> right = helper(arr, mid + 1, right);
         
         return root;
     }
     
     
     TreeNode* sortedListToBST(ListNode* head) {
-        sortedArray(head);
+        vector<int> arr;
+        sortedArray(head, arr);
         
-        return helper(0, arr.size() -1);
+        return helper(arr, 0, arr.size() -1);
     }
 };
