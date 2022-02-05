@@ -22,15 +22,7 @@
 
 class Solution {
 public:
-    
-    void sortedArray(ListNode* &head , vector<int> &arr)
-    {
-        while(head != NULL)
-        {
-            arr.push_back(head -> val);
-            head = head -> next;
-        }
-    }
+
     
     TreeNode* helper(vector<int> arr, int left, int right)
     {
@@ -47,11 +39,16 @@ public:
         
         return root;
     }
-    
-    
+     
     TreeNode* sortedListToBST(ListNode* head) {
         vector<int> arr;
-        sortedArray(head, arr);
+        // sortedArray(head, arr);
+        
+         while(head != NULL)
+        {
+            arr.push_back(head -> val);
+            head = head -> next;
+        }
         
         return helper(arr, 0, arr.size() -1);
     }
