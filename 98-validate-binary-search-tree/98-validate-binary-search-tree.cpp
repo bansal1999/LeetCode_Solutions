@@ -12,24 +12,26 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        vector<int> inorder;
-        inorderTravel(root, inorder);
+        long prev [1] = {-99999999999};
         
-        for(int i=1; i< inorder.size(); i++)
-        {
-            if(inorder[i-1] >= inorder[i])
-                return false;
-        }
-        return true;
+        return helper(root, prev);
     }
     
-    void inorderTravel(TreeNode* root, vector<int>& inorder)
+    bool helper(TreeNode* root, long prev [1])
     {
         if(root == NULL)
-            return;
+            return true;
         
-        inorderTravel(root-> left, inorder);
-        inorder.push_back(root->val);
-        inorderTravel(root-> right, inorder);
+        bool leftans = helper(root -> left, prev);
+        
+        if(root -> val <= prev[0])
+            return false;
+        
+        prev[0] = root->val;
+        bool rightans = helper(root -> right, prev);
+            
+        return leftans && rightans;
+        
+        
     }
 };
