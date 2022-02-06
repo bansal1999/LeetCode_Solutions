@@ -19,8 +19,7 @@ public:
         
         for(int i=0, k=0; i<n; i+=2)
         {
-            ans[i] = even[k];
-            k++;
+            ans[i] = even[k++];
         }
         
         for(int i=1, k=0; i<n; i+=2)
