@@ -4,6 +4,7 @@ public:
         int n = nums.size();
         
         vector<int> odd , even;
+        vector<int> ans(n);
         
         for(int i =0; i<n; i++)
         {
@@ -14,20 +15,20 @@ public:
         }
         
         sort(even.begin(), even.end());
-        sort(odd.begin(), odd.end(), greater<int>());
-        
+        sort(odd.begin(), odd.end(), greater<int>()); 
         
         for(int i=0, k=0; i<n; i+=2)
         {
-            nums[i] = even[k++];
+            ans[i] = even[k];
+            k++;
         }
         
         for(int i=1, k=0; i<n; i+=2)
         {
-            nums[i] = odd[k++];
+            ans[i] = odd[k++];
         }
 
-        return nums;
+        return ans;
 
     }
 };
