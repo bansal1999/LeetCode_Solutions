@@ -14,7 +14,7 @@ public:
             swap(str[0], str[idx]);
         }
         
-        long long int ans = stoll(str);
+        long long  ans = stoll(str);
         
         if(num < 0)
             ans *= -1;
