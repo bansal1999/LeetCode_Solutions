@@ -15,7 +15,7 @@ public:
         unordered_map<int, int> mp;
         populateMap(mp, inorder);
         
-        int postIndex[1] = {(int)(postorder.size() - 1)};
+        int postIndex = (postorder.size() - 1);
         
         return constructTree(inorder, postorder, mp, 0, inorder.size() - 1, postIndex);
         
@@ -29,15 +29,15 @@ public:
         }
     }
     
-    TreeNode* constructTree(vector<int> &inorder, vector<int> &postorder, unordered_map<int, int> &mp, int start, int end, int postIndex[1])
+    TreeNode* constructTree(vector<int> &inorder, vector<int> &postorder, unordered_map<int, int> &mp, int start, int end, int &postIndex)
     {
         if(start > end)
             return NULL;
         
-        TreeNode* root = new TreeNode(postorder[postIndex[0]]);
-        int currIndex = mp[postorder[postIndex[0]]];
+        TreeNode* root = new TreeNode(postorder[postIndex]);
+        int currIndex = mp[postorder[postIndex]];
         
-        postIndex[0] -= 1;
+        postIndex -= 1;
         
         root -> right = constructTree(inorder, postorder, mp, currIndex + 1, end, postIndex);
         root -> left = constructTree(inorder, postorder, mp, start, currIndex - 1, postIndex);
