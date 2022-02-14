@@ -12,38 +12,21 @@
 class Solution {
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        vector<int> inorder = preorder;
-        sort(inorder.begin(), inorder.end());
+        int preIndex[1] = {0};
         
-        
-        unordered_map<int, int> mp;
-        populateMap(mp, inorder);
-        
-        int preIndex = 0;
-        return constructTree(preorder, inorder, mp, 0, inorder.size() -1, preIndex);
+        return buildTree(preorder, preIndex, 1001);
     }
     
-    void populateMap(unordered_map<int, int> &mp, vector<int>& inorder)
+    TreeNode* buildTree(vector<int>& preorder, int preIndex[1], int maxVal)
     {
-        for(int i=0; i< inorder.size(); i++)
-        {
-            mp[inorder[i]] = i;
-        }
-        return;
-    }
-    
-    TreeNode* constructTree(vector<int> &preorder, vector<int> &inorder, unordered_map<int, int> &mp, int start, int end, int &preIndex)
-    {
-        if(start > end)
+        if(preIndex[0] >= preorder.size() || preorder[preIndex[0]] >= maxVal)
             return NULL;
         
-        TreeNode* root = new TreeNode(preorder[preIndex]);
-        int currIndex = mp[preorder[preIndex]];
+        TreeNode* root = new TreeNode(preorder[preIndex[0]]);
+        preIndex[0] += 1;
         
-        preIndex += 1;
-        
-        root -> left = constructTree(preorder, inorder, mp, start, currIndex - 1, preIndex);
-        root -> right = constructTree(preorder, inorder, mp, currIndex + 1, end, preIndex);
+        root -> left = buildTree(preorder, preIndex, root -> val);
+        root -> right = buildTree(preorder, preIndex, maxVal);
         
         return root;
     }
