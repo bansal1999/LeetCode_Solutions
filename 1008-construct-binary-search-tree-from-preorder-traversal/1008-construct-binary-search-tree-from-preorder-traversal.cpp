@@ -12,21 +12,28 @@
 class Solution {
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        int preIndex[1] = {0};
+        int idx =0;
+        int maxVal = 1000;
+        int minVal = 1;
         
-        return buildTree(preorder, preIndex, 1001);
+        return helper(preorder, idx, maxVal, minVal);
     }
     
-    TreeNode* buildTree(vector<int>& preorder, int preIndex[1], int maxVal)
+    TreeNode* helper(vector<int> &preorder, int &idx, int &maxVal, int &minVal)
     {
-        if(preIndex[0] >= preorder.size() || preorder[preIndex[0]] >= maxVal)
+        if(idx == preorder.size())
             return NULL;
         
-        TreeNode* root = new TreeNode(preorder[preIndex[0]]);
-        preIndex[0] += 1;
+        int value = preorder[idx];
         
-        root -> left = buildTree(preorder, preIndex, root -> val);
-        root -> right = buildTree(preorder, preIndex, maxVal);
+        if(value < minVal || value > maxVal)
+            return NULL;
+        
+        idx++;
+        
+        TreeNode* root = new TreeNode(value);
+        root -> left = helper(preorder, idx, value, minVal);
+        root -> right = helper(preorder, idx, maxVal, value);
         
         return root;
     }
