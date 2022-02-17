@@ -4,14 +4,14 @@ public:
          
         int n = graph.size();
         vector<vector<int>> ans;
-        vector<bool> visited(n);
+        // vector<bool> visited(n);
         vector<int> currPath;
        
-        helper(graph, ans, visited, currPath, 0, n);
+        helper(graph, ans, currPath, 0, n);
         return ans;
     }
     
-    void helper(vector<vector<int>> &graph, vector<vector<int>> &ans, vector<bool> &visited, vector<int> currPath, int currNode, int n)
+    void helper(vector<vector<int>> &graph, vector<vector<int>> &ans, vector<int> currPath, int currNode, int n)
     {
         if(currNode == n-1)
         {
@@ -21,18 +21,18 @@ public:
             return;
         }
         
-        if(visited[currNode] == true)
-            return;
+        // if(visited[currNode] == true)
+        //     return;
         
-        visited[currNode] = true;
+        // visited[currNode] = true;
         currPath.push_back(currNode);
         
         for(auto it: graph[currNode])
         {
-            helper(graph, ans, visited, currPath, it, n);
+            helper(graph, ans, currPath, it, n);
         }
         
-        visited[currNode] = false;
+//         visited[currNode] = false;
         currPath.pop_back();
         return;
         
