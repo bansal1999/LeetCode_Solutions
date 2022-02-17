@@ -1,34 +1,38 @@
 class Solution {
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-        int row = image.size();
-        int col = image[0].size();
         
         if(image[sr][sc] == newColor)
             return image;
         
-        helper(image, sr, sc, newColor, row, col, image[sr][sc]);
-        return image;
-    }
-    
-    void helper(vector<vector<int>>& image, int currRow, int currCol, int newColor, int row, int col, int color)
-    {
-        if(currCol < 0 || currRow < 0  || currCol >= col || currRow >= row || image[currRow][currCol] != color)
+        int row = image.size();
+        int col = image[0].size();
+        
+        int color = image[sr][sc];
+        queue<pair<int, int>> q;
+        
+        q.push({sr, sc});
+        
+        while(!q.empty())
         {
-            return;
+            auto it = q.front();
+            q.pop();
+            
+            int currRow = it.first;
+            int currCol = it.second;
+            
+            if(currRow < 0 || currCol < 0 || currRow >= row || currCol >= col || image[currRow][currCol] != color)
+                continue;
+            
+            image[currRow][currCol] = newColor;
+            
+            q.push({currRow + 1, currCol});
+            q.push({currRow - 1, currCol});
+            q.push({currRow, currCol + 1});
+            q.push({currRow, currCol - 1});
+            
         }
         
-        image[currRow][currCol] = newColor;
-        
-        helper(image, currRow + 1, currCol, newColor, row, col, color);
-         
-        helper(image, currRow  -1, currCol, newColor, row, col, color);
-        
-        helper(image, currRow, currCol + 1, newColor, row, col, color);
-          
-        helper(image, currRow, currCol -1 , newColor, row, col, color);
-        
-        return;
-        
+        return image;
     }
 };
