@@ -30,9 +30,10 @@ public:
         grid[currRow][currCol] = '0';
         
         helper(grid, currRow + 1, currCol, row, col);
-         helper(grid, currRow - 1, currCol , row, col);
-         helper(grid, currRow , currCol + 1, row, col);
-         helper(grid, currRow, currCol -1 , row, col);
+        helper(grid, currRow - 1, currCol , row, col);
+        helper(grid, currRow , currCol + 1, row, col);
+        helper(grid, currRow, currCol -1 , row, col);
         
+        return;
     }
 };
