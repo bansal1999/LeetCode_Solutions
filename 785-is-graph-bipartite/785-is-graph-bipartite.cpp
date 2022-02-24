@@ -2,39 +2,44 @@ class Solution {
 public:
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
-        
         vector<int> colors(n, -1);
         
-        for(int curr = 0; curr < n; curr++)
+        for(int curr =0; curr < n; curr++)
         {
             if(colors[curr] == -1)
             {
-                if(!checkDFS(graph, curr, colors))
+                if(!checkBFS(graph, curr, colors))
                     return false;
             }
         }
+        
         return true;
     }
     
-    bool checkDFS(vector<vector<int>> &graph, int curr, vector<int>& colors)
+    bool checkBFS(vector<vector<int>> &graph, int curr, vector<int>&colors)
     {
-        if(colors[curr] == -1)
-            colors[curr] = 1;
+        queue<int> q;
+        q.push(curr);
+        colors[curr] = 1;
         
-        for(auto  it: graph[curr])
+        while(!q.empty())
         {
-            if(colors[it] == -1)
+            int node = q.front();
+            q.pop();
+            
+            for(auto it: graph[node])
             {
-                colors[it] = 1 - colors[curr];
-                if(!checkDFS(graph, it, colors))
+                if(colors[it] == -1)
+                {
+                    colors[it] = 1 - colors[node];
+                    q.push(it);
+                }
+                else if(colors[it] == colors[node])
                     return false;
-                
             }
-            else if(colors[curr] == colors[it])
-                return false;
+            
+    
         }
-        
         return true;
     }
-
 };
