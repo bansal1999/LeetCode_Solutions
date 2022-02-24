@@ -7,28 +7,34 @@ public:
         
         for(int curr = 0; curr < n; curr++)
         {
-            if(colors[curr] != -1)
-                continue;
-            
-            if(isEvenCycle(graph, curr, 0, colors) == false)
-                return false;
+            if(colors[curr] == -1)
+            {
+                if(!checkDFS(graph, curr, colors))
+                    return false;
+            }
         }
         return true;
     }
     
-    bool isEvenCycle(vector<vector<int>> &graph, int curr, int color, vector<int>&colors)
+    bool checkDFS(vector<vector<int>> &graph, int curr, vector<int>& colors)
     {
-        if(colors[curr] != -1)
-            return colors[curr] == color;
-        
-        colors[curr] = color;
+        if(colors[curr] == -1)
+            colors[curr] = 1;
         
         for(auto  it: graph[curr])
         {
-            if(isEvenCycle(graph, it, 1 - color, colors) == false)
+            if(colors[it] == -1)
+            {
+                colors[it] = 1 - colors[curr];
+                if(!checkDFS(graph, it, colors))
+                    return false;
+                
+            }
+            else if(colors[curr] == colors[it])
                 return false;
         }
         
         return true;
     }
+
 };
