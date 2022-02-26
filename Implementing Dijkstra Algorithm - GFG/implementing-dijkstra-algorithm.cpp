@@ -14,32 +14,29 @@ class Solution
         vector<int> costs(V, INT_MAX);
         costs[S] = 0;
         
-        priority_queue<pair<int, int> , vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int , int>>> pq;
+        
         pq.push({0, S});
         
         while(!pq.empty())
         {
-            auto top =  pq.top();
-            int currCost = top.first;
+            auto top = pq.top();
             int currNode = top.second;
-            
+            int currDist = top.first;
             pq.pop();
             
             for(auto it: adj[currNode])
             {
-                int next = it[0];
-                int nextCost = it[1];
+                int nextNode = it[0];
+                int nextDist = it[1];
                 
-                if(costs[next] > costs[currNode] + nextCost)
-                   { 
-                       costs[next] = costs[currNode] + nextCost;
-                       pq.push({nextCost, next});
-                      
-                   }
+                if(costs[nextNode] > costs[currNode]+ nextDist)
+                {
+                    costs[nextNode] = costs[currNode] + nextDist;
+                    pq.push({nextDist, nextNode});
+                }
             }
-            
         }
-        
         return costs;
     }
 };
