@@ -1,39 +1,39 @@
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
         
-        int row = grid.size();
-        int col = grid[0].size();
+        int ans=0;
         
-        int ans =0;
-        
-        for(int currRow =0; currRow< row; currRow++)
+        for(int i =0; i< r; i++)
         {
-            for(int currCol =0; currCol< col; currCol++)
+            for(int j =0; j < c;j++)
             {
-                if(grid[currRow][currCol] == '1')
+                if(grid[i][j] == '1')
                 {
                     ans += 1;
-                    helper(grid, currRow, currCol, row, col);
+                    helper(grid, i , j, r, c);
                 }
+                
             }
         }
-        
         return ans;
     }
     
-    void helper(vector<vector<char>>& grid, int currRow, int currCol, int row, int col)
+    void helper(vector<vector<char>>& grid, int cr, int cc, int r, int c)
     {
-        if(currRow < 0 || currCol < 0 || currRow >= row || currCol >= col|| grid[currRow][currCol] == '0')
+        if(cr >= r || cc >= c || cr < 0 || cc < 0 || grid[cr][cc] == '0')
             return;
         
-        grid[currRow][currCol] = '0';
+        grid[cr][cc] = '0';
         
-        helper(grid, currRow + 1, currCol, row, col);
-        helper(grid, currRow - 1, currCol , row, col);
-        helper(grid, currRow , currCol + 1, row, col);
-        helper(grid, currRow, currCol -1 , row, col);
+        helper(grid, cr + 1, cc, r, c);
+        helper(grid, cr - 1, cc, r, c);
+        helper(grid, cr , cc + 1, r, c);
+        helper(grid, cr , cc - 1, r, c);
         
         return;
     }
+    
 };
