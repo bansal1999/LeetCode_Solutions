@@ -12,7 +12,7 @@ public:
             {
                 if(grid[i][j] == 1)
                 {
-                    int ans =0;
+                    int ans = 0;
                     ans = helper(grid, i, j, r, c);
                     maxAns = max(ans, maxAns);
                 }
@@ -29,7 +29,15 @@ public:
         
         grid[cr][cc] = 0;
         
-        return (1 + helper(grid, cr + 1, cc, r, c) + helper(grid, cr - 1, cc, r, c) + helper(grid, cr, cc +1, r, c) + helper(grid, cr, cc -1, r, c) );
+        int down =0, up =0, right =0, left = 0;
+        
+        down += helper(grid, cr + 1, cc, r, c);
+        up +=   helper(grid, cr - 1, cc, r, c);
+        right += helper(grid, cr, cc +1, r, c);
+        left += helper(grid, cr, cc -1, r, c);
+        
+        
+        return (down + up + right + left +1);
             
     }
     
