@@ -19,7 +19,7 @@ public:
         
         while(low <= high)
         {
-            long long mid = (low + high)/2;
+            long long mid = (low + high) >> 1;
             if(tripsTakenTime(time, mid) >= totalTrips)
             {
                 ans = mid;
