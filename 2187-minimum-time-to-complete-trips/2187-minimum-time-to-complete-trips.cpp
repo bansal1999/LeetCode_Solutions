@@ -14,7 +14,7 @@ public:
     }
     
     long long minimumTime(vector<int>& time, int totalTrips) {
-        long long low =0, high = 1e14;
+        long long low =1, high = 1e14;
         long long ans = high;
         
         while(low <= high)
