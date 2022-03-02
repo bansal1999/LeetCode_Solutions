@@ -16,7 +16,7 @@ public:
         {
             int x = q.front().first;
             int y = q.front().second;
-           
+             q.pop();
             
             if(x == n-1 && y == n-1)
                 return grid[x][y];
@@ -33,7 +33,7 @@ public:
                 }
                 
             }
-             q.pop();
+            
         }
         return -1;
     }
