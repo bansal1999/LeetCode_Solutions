@@ -14,24 +14,28 @@ public:
         
         while(!q.empty())
         {
-            int x = q.front().first;
-            int y = q.front().second;
-             q.pop();
-            
-            if(x == n-1 && y == n-1)
-                return grid[x][y];
-            
-            for(auto it: dirs)
+            int qsize =  q.size();
+            for(int i =0; i< qsize; i++)
             {
-                int nx = x + it.first;
-                int ny = y + it.second;
-                
-                if(nx >= 0 && nx < n && ny >= 0  && ny < n && grid[nx][ny] == 0)
+                int x = q.front().first;
+                int y = q.front().second;
+                 q.pop();
+
+                if(x == n-1 && y == n-1)
+                    return grid[x][y];
+
+                for(auto it: dirs)
                 {
-                    q.push({nx, ny});
-                    grid[nx][ny]= grid[x][y] + 1;
+                    int nx = x + it.first;
+                    int ny = y + it.second;
+
+                    if(nx >= 0 && nx < n && ny >= 0  && ny < n && grid[nx][ny] == 0)
+                    {
+                        q.push({nx, ny});
+                        grid[nx][ny]= grid[x][y] + 1;
+                    }
+
                 }
-                
             }
             
         }
