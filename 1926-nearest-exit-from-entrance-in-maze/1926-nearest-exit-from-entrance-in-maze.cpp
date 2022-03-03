@@ -11,12 +11,13 @@ public:
         queue<pair<int, int>> q;
         q.push({sr, sc});
         maze[sr][sc] = '+';
-        int moves = 1;
+        int moves = 0;
         
         
         while(!q.empty())
         {
             int qsize = q.size();
+             moves++;
             for(int i =0; i< qsize; i++)
             {
                 int x = q.front().first;
@@ -40,7 +41,7 @@ public:
                 
             }
             
-             moves++;
+            
             
         }
         return -1;
