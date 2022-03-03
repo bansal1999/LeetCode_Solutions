@@ -21,28 +21,33 @@ public:
         
         while(!q.empty())
         {
-            auto curr = q.front();
-            q.pop();
-            
-            int x = curr.first;
-            int y = curr.second;
-            
-            for(auto &it: dirs)
+            int qsize = q.size();
+            for(int i =0; i < qsize; i++)
             {
-                int newX = it.first + x;
-                int newY = it.second + y;
-                
-                if( (newX < row && newY < col && newX >= 0 && newY >= 0) && (grid[newX][newY] == 0))
+                auto curr = q.front();
+                q.pop();
+
+                int x = curr.first;
+                int y = curr.second;
+
+                for(auto &it: dirs)
                 {
-                    q.push({newX, newY});
-                    grid[newX][newY] = grid[x][y] + 1;
-                    dist = max(dist, grid[newX][newY]);
+                    int newX = it.first + x;
+                    int newY = it.second + y;
+
+                    if( (newX < row && newY < col && newX >= 0 && newY >= 0) && (grid[newX][newY] == 0))
+                    {
+                        q.push({newX, newY});
+                        grid[newX][newY] = grid[x][y] + 1;
+                        dist = max(dist, grid[newX][newY]);
+                    }
+
                 }
-                
             }
+           
         }
         
-        return dist > 0 ? dist -1 : -1;
+        return (dist > 0) ? (dist -1) : -1;
         
     }
 };
