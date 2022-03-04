@@ -1,28 +1,44 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>> &graph, int node, vector<int> &vis)
-    {
-        vis[node]= 1;
-        
-        for(int i = 0; i < graph[node].size(); i++)
-        {
-            if(!vis[graph[node][i]])
-                dfs(graph, graph[node][i], vis);
-        }
-    }
-    
-    
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
-        int n = rooms.size();
-        vector<int> vis(n, 0);
+//         vector<int> adj[rooms.size()];
         
-        dfs(rooms, 0, vis);
+//         for(int i =0; i< rooms.size(); i++)
+//         {
+//             for(int j =0; j< rooms[i].size(); j++)
+//             {
+//                 adj[i].push_back(rooms[i][j]);
+//             }
+//         }
         
-        for(int i =0; i< n; i++)
+        queue<int> q;
+        
+        vector<int> vis(rooms.size(),  0);
+        vis[0] =1;
+        
+        q.push(0);
+        
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            
+            for(auto it: rooms[node])
+            {
+                if(!vis[it])
+                {
+                    vis[it] = 1;
+                    q.push(it);
+                }
+            }
+        }
+        
+        for(int i =0; i< rooms.size(); i++)
         {
             if(!vis[i])
                 return false;
         }
         return true;
+        
     }
 };
