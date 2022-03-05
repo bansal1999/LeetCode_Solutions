@@ -2,32 +2,37 @@ class Solution {
 public:
     bool judgeCircle(string moves) {
         
-        // unordered_map<string, int> mp;
+        unordered_map<char, int> mp;
         
-        int upctr =0, rtctr = 0;
-        
-        for(int i =0; i< moves.size(); i++)
+        for(auto it: moves)
         {
-           if(moves[i] == 'U')
-               upctr++;
-            else if(moves[i] == 'D')
-                upctr--;
-            
-             if(moves[i] == 'R')
-                 rtctr++;
-            else if(moves[i] == 'L')
-                rtctr--;
+            mp[it]++;
         }
         
-        // if(mp["L"] == mp["R"] && mp["U"] == mp["D"])
-        //     return true;
-        // else
-        //     return false;
+//         int upctr =0, rtctr = 0;
         
-        if(upctr == 0 && rtctr == 0)
+//         for(int i =0; i< moves.size(); i++)
+//         {
+//            if(moves[i] == 'U')
+//                upctr++;
+//             else if(moves[i] == 'D')
+//                 upctr--;
+            
+//              if(moves[i] == 'R')
+//                  rtctr++;
+//             else if(moves[i] == 'L')
+//                 rtctr--;
+//         }
+        
+        if(mp['L'] == mp['R'] && mp['U'] == mp['D'])
             return true;
         else
             return false;
+        
+//         if(upctr == 0 && rtctr == 0)
+//             return true;
+//         else
+//             return false;
        
     }
 };
