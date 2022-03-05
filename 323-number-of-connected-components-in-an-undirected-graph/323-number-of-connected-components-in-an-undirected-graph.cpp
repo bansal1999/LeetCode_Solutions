@@ -16,7 +16,8 @@ public:
         {
             if(!visited[i])
             {
-                dfs(adj, visited, i);
+                // dfs(adj, visited, i);
+                bfs(adj, visited, i);
                 ans++;
             }
         }
@@ -24,16 +25,38 @@ public:
         
     }
     
-    void dfs(vector<vector<int>> &adj, vector<bool>&visited, int node)
+    void bfs(vector<vector<int>> &adj, vector<bool>&visited, int node)
     {
+        queue<int> q;
+        q.push(node);
         visited[node] = true;
         
-        for(auto it: adj[node])
+        while(!q.empty())
         {
-            if(!visited[it])
-                dfs(adj, visited, it);
+            int curr = q.front();
+            q.pop();
+            
+            for(auto it: adj[curr])
+            {
+                if(!visited[it])
+                {
+                    q.push(it);
+                    visited[it] = true;
+                }
+            }
         }
     }
+    
+//     void dfs(vector<vector<int>> &adj, vector<bool>&visited, int node)
+//     {
+//         visited[node] = true;
+        
+//         for(auto it: adj[node])
+//         {
+//             if(!visited[it])
+//                 dfs(adj, visited, it);
+//         }
+//     }
     
     
 };
