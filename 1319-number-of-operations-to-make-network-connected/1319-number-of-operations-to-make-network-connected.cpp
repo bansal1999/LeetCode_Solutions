@@ -15,12 +15,13 @@ public:
         
         vector<bool> visited (n, false);
         int cmp =0;
+
         
         for(int i =0; i < n; i++)
         {
             if(!visited[i])
             {
-                dfs(adj, visited, i);
+                bfs(adj, visited, i);
                 cmp++;
                 
             }
@@ -29,14 +30,38 @@ public:
         return cmp - 1;
     }
     
-    void dfs(vector<vector<int>>& connections, vector<bool> &visited, int node)
+    void bfs( vector<vector<int>> &adj, vector<bool> &visited, int i)
     {
-        visited[node] = true;
-        for(auto  it: connections[node])
+        queue<int> q;
+        q.push(i);
+        
+        while(!q.empty())
         {
-            if(!visited[it])
-                dfs(connections, visited, it);
+            int node = q.front();
+            q.pop();
+            visited[node] = true;
+            
+            for(auto it: adj[node])
+            {
+                if(!visited[it])
+                {
+                    q.push(it);
+                    visited[it] = true;
+                }
+            }
         }
     }
+    
+    
+    
+    // void dfs(vector<vector<int>>& connections, vector<bool> &visited, int node)
+    // {
+    //     visited[node] = true;
+    //     for(auto  it: connections[node])
+    //     {
+    //         if(!visited[it])
+    //             dfs(connections, visited, it);
+    //     }
+    // }
     
 };
