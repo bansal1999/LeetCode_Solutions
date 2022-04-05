@@ -14,32 +14,34 @@ class Solution
     {
        // Your code here
        vector<int> v;
-       stack<pair<int, int>> st;
+       stack<pair<int, int>> stk;
        
-       for(int i =0; i< n; i++)
+       for(int i =0; i<n; i++)
        {
-           if(st.size() == 0)
+            if(stk.size() == 0)
                 v.push_back(-1);
-           else if(st.size() > 0 && st.top().first > price[i])
-                v.push_back(st.top().second);
-           else if(st.size() > 0 && st.top().first <= price[i])
-           {
-               while(st.size() > 0 && st.top().first <= price[i])
-                    st.pop();
-                
-                if(st.size() == 0)
+            else if(stk.size() > 0 && stk.top().first > price[i])
+                v.push_back(stk.top().second);
+            else if(stk.size() > 0 && stk.top().first <= price[i])
+            {
+                while(stk.size() > 0 && stk.top().first <= price[i])
+                {
+                    stk.pop();
+                }
+                if(stk.size() == 0)
                     v.push_back(-1);
                 else
-                    v.push_back(st.top().second);
-           }
-           
-           st.push({price[i], i }); 
+                    v.push_back(stk.top().second);
+            }
+            
+            stk.push({price[i] , i});
        }
        
        for(int i =0; i< v.size(); i++)
-            v[i] = i - v[i];
-        
-        return v;
+       {
+           v[i] = i - v[i];
+       }
+       return v;
     }
 };
 
