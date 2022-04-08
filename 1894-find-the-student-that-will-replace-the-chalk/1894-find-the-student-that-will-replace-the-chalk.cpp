@@ -18,6 +18,6 @@ public:
                 k -= chalk[i];
         }
         
-        return chalk.size() -1;
+        return chalk.size();
     }
 };
