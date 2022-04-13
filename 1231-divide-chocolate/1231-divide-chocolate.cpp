@@ -2,7 +2,7 @@ class Solution {
 public:
     bool maximizeSubarray(vector<int> &sweetness, int limit, int k)
     {
-        // int cnt = 0;
+        int cnt = 0;
         int sum = 0;
         
         for(int i =0; i<sweetness.size(); i++)
@@ -11,12 +11,12 @@ public:
             
             if(sum >= limit)
             {
-                // cnt++;
-                k--;
+                cnt++;
+                // k--;
                 sum =0;
             }
         }
-        return k < 0;
+        return cnt > k;
     }
 
     int maximizeSweetness(vector<int>& sweetness, int k) {
