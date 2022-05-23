@@ -6,10 +6,10 @@ public:
         if(ind == n)
             return 0;
         
-        int profit = 0;
-        
         if(dp[ind][buy] != -1)
             return dp[ind][buy];
+        
+        int profit = 0;
         
         if(buy)
         {
