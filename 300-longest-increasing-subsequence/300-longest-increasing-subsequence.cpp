@@ -17,6 +17,6 @@ public:
                 temp[idx] = nums[i];
             }
         }
-        return temp.size();
+        return len;
     }
 };
