@@ -1,22 +1,42 @@
 class Solution {
+// private:
+//     int helper(int ind, int prev, vector<int>& arr, int n, vector<vector<long long>> &dp)
+//     {
+//         if(ind == n)
+//             return 0;
+
+//         if(dp[ind][prev+1] != -1)
+//             return dp[ind][prev+1];
+
+//         int len = 0 + helper(ind + 1, prev, arr, n, dp);
+
+//         if(prev == -1 || arr[ind] > arr[prev])
+//             len = max(len, 1 + helper(ind+1, ind, arr, n, dp));
+
+//         return dp[ind][prev+1] = len;
+//     }
+    
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        vector<int> temp;
-        temp.push_back(nums[0]);
-        int len= 1;
-        for(int i = 1; i<nums.size(); i++)
+    int lengthOfLIS(vector<int>& arr) {
+        
+        int n = arr.size();
+        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+        
+        for(int ind = n-1; ind >= 0; ind--)
         {
-            if(nums[i] > temp.back())
+            for(int prev = ind -1; prev >= -1; prev--)
             {
-                temp.push_back(nums[i]);
-                len++;
-            }
-            else
-            {
-                int idx = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
-                temp[idx] = nums[i];
+                int len = 0 + dp[ind+1][prev+1];
+                
+                if(prev == -1 || arr[ind] > arr[prev])
+                {
+                    len = max(len, 1 + dp[ind+1][ind+1]);
+                }
+                
+                dp[ind][prev+1] = len;
             }
         }
-        return len;
+        return dp[0][-1+1];
+        
     }
 };
