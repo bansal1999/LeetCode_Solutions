@@ -35,7 +35,7 @@ private:
 
 class DiningPhilosophers {
     Semaphore fork[5];
-    std::mutex m, l;
+    std::mutex m;
     
 public:
     DiningPhilosophers() {
