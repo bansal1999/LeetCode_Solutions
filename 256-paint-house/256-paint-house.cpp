@@ -1,23 +1,36 @@
 class Solution {
-public: 
-    int helper(int inx, int c, vector<vector<int>>& costs, vector<vector<int>>& dp){
-        if(inx == -1) return 0;
+public:
+    int helper(int ind, int color, vector<vector<int>>& costs,  vector<vector<int>> &dp )
+    {
+        if(ind == costs.size())
+            return 0;
         
-        if(dp[inx][c] != -1) return dp[inx][c];
+        if(dp[ind][color] != -1)
+            return dp[ind][color];
         
-        int min_price = INT_MAX;
-        for(int i=0; i<costs[0].size(); i++){
-             if(i != c){
-                int chose = costs[inx][i] + helper(inx-1, i, costs, dp);
-                min_price = min(min_price, chose);
-            }
+        int totalCost = costs[ind][color];
+        
+        if(color == 0)
+        {
+            totalCost += min(helper(ind +1, 1, costs, dp) , helper(ind +1, 2, costs, dp));
         }
-        return dp[inx][c] = min_price;
+        if (color == 1)
+        {
+            totalCost += min(helper(ind +1, 0, costs, dp) , helper(ind +1, 2, costs, dp));
+        }
+        if (color == 2)
+        {
+            totalCost += min(helper(ind +1, 1, costs, dp ) , helper(ind +1, 0, costs, dp));
+        }
+        
+         return dp[ind][color] = totalCost ;
+        
     }
+    
     int minCost(vector<vector<int>>& costs) {
-        int n = costs.size()-1;
-        int m = costs[0].size();
-        vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
-        return helper(n, m, costs, dp);
+        
+        vector<vector<int>> dp(costs.size(), vector<int>(3, -1));
+        
+        return min (helper(0, 0, costs, dp) , min(helper(0, 1, costs, dp) , helper(0, 2, costs, dp)));
     }
 };
