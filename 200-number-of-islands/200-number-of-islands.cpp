@@ -1,36 +1,40 @@
 class Solution {
 public:
-    int numIslands(vector<vector<char>>& grid) {
-        int row = grid.size();
-        int col = grid[0].size();
-        int ans = 0;
+    void bfs(vector<vector<char>>& grid,int currentRow,int currentCol,int m,int n){
+        queue<pair<int,int>>q;
+        q.push({currentRow,currentCol});
         
-        for(int i =0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                if(grid[i][j] == '1'){
-                    ans += 1;
-                    helper(grid, row, col, i, j);
+        while(!q.empty()){
+            auto it = q.front();
+            q.pop();
+            int curr_row = it.first;
+            int curr_col = it.second;
+            if(curr_row < 0 || curr_row>=m ||curr_col < 0 || curr_col >=n || grid[curr_row][curr_col] == '0'){
+            continue;
+            }
+            grid[curr_row][curr_col] = '0';
+            q.push({curr_row-1,curr_col});
+            q.push({curr_row,curr_col+1});
+            q.push({curr_row+1,curr_col});
+            q.push({curr_row,curr_col-1});
+        }
+        return;
+    }
+    
+    
+    int numIslands(vector<vector<char>>& grid)  {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        int ans = 0;
+        for(int currentRow = 0;currentRow < m;currentRow++){
+            for(int currentCol = 0;currentCol < n;currentCol++){
+                if(grid[currentRow][currentCol] == '1'){
+                    ans+=1;
+                    bfs(grid,currentRow,currentCol,m,n);
                 }
             }
         }
-       return ans;
+        return ans;
     }
-    
-    void helper(vector<vector<char>>& grid, int row, int col, int currRow, int currCol){
-        
-        if(currRow < 0 || currCol < 0 || currRow >= row || currCol >= col || grid[currRow][currCol] == '0')
-            return;
-        
-        grid[currRow][currCol] = '0';
-        
-        helper(grid, row, col, currRow + 1, currCol);
-         helper(grid, row, col, currRow - 1, currCol);
-         helper(grid, row, col, currRow, currCol + 1);
-         helper(grid, row, col, currRow, currCol - 1);
-        
-        return;
-        
-    }
-    
-    
 };
