@@ -1,40 +1,41 @@
 class Solution {
 public:
+    
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-         
         int n = graph.size();
+        vector<int> path;
+        vector<bool> visited(n);
         vector<vector<int>> ans;
-        // vector<bool> visited(n);
-        vector<int> currPath;
-       
-        helper(graph, ans, currPath, 0, n);
+        
+        helper(graph, 0, n, path, visited, ans);
         return ans;
     }
     
-    void helper(vector<vector<int>> &graph, vector<vector<int>> &ans, vector<int> currPath, int currNode, int n)
-    {
-        if(currNode == n-1)
-        {
-            currPath.push_back(currNode);
-            ans.push_back(currPath);
-            currPath.pop_back();
+    void helper(vector<vector<int>>& graph, int currNode, int n, vector<int> &path, vector<bool> &visited, vector<vector<int>> &ans) {
+        
+        if(currNode == n-1){
+            path.push_back(currNode);
+            ans.push_back(path);
+            path.pop_back();
             return;
         }
         
-        // if(visited[currNode] == true)
-        //     return;
+        if(visited[currNode] == true)
+            return;
         
-        // visited[currNode] = true;
-        currPath.push_back(currNode);
+        visited[currNode] = true;
         
-        for(auto it: graph[currNode])
-        {
-            helper(graph, ans, currPath, it, n);
+        path.push_back(currNode);
+        
+        for(auto &it: graph[currNode]){
+            helper(graph, it, n, path, visited, ans);
         }
         
-//         visited[currNode] = false;
-        currPath.pop_back();
+        visited[currNode]= false;
+        path.pop_back();
         return;
         
     }
+    
+    
 };
