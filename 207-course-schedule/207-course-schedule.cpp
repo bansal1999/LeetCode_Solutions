@@ -1,59 +1,52 @@
 class Solution {
 public:
-    vector<vector<int>> constructGraph(int n, vector<vector<int>> &edges)
-    {
-        vector<vector<int>> graph(n);
+    vector<vector<int>> constructGraph(int numCourses, vector<vector<int>>& prerequisites){
+        vector<vector<int>> edges(numCourses);
         
-        for(auto  it: edges)
-        {
-            int v = it[0];
-            int u = it[1];
-            
-            graph[u].push_back(v);
+        for(auto it: prerequisites){
+            edges[it[1]].push_back(it[0]);
         }
-        
-        return graph;
+        return edges;
     }
+    
     
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph = constructGraph(numCourses, prerequisites);
         
-        unordered_set<int> visited;
-        unordered_set<int> dfsVisited;
+        vector<int>indegree(numCourses, 0);
         
-        for(int currVertex = 0; currVertex < numCourses; currVertex++)
-        {
-            if(visited.find(currVertex) != visited.end())
-            {
-                continue;
+        for(int i =0; i < numCourses; i++){
+            for(auto &it: graph[i]){
+                indegree[it]++;
             }
+        }
+        
+        queue<int> q;
+        int ans = 0;
+        
+        for(int i =0; i < numCourses; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+                ans += 1;
+            }
+        }
+        
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
             
-            if(isCycle(graph, currVertex, visited, dfsVisited))
-                return false;
-        }
-        
-        return true;
-        
-    }
-    
-    bool isCycle(vector<vector<int>> &graph, int currVertex, unordered_set<int>&visited, unordered_set<int> &dfsVisited)
-    {
-        visited.insert(currVertex);
-        dfsVisited.insert(currVertex);
-        
-        for(auto neighbour: graph[currVertex])
-        {
-            if(visited.find(neighbour) == visited.end())
-            {
-                if(isCycle(graph, neighbour, visited, dfsVisited))
-                    return true;
+            for(auto it: graph[node]){
+                indegree[it] -= 1;
+                if(indegree[it] == 0){
+                    q.push(it);
+                    ans++;
+                }
             }
-            else if(dfsVisited.find(neighbour) != dfsVisited.end())
-                return true;
         }
         
-        dfsVisited.erase(currVertex);
+        if(ans == numCourses){
+            return true;
+        }
         return false;
-        
     }
 };
