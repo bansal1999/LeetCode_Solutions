@@ -10,44 +10,43 @@ public:
         return edges;
     }
     
+    bool checkCycle(int node, int numCourses, vector<vector<int>> &graph, vector<int> &visited, vector<int> &dfsVis, vector<int> &topoSort) {
+        
+        visited[node] = 1;
+        dfsVis[node] = 1;
+        
+        for(auto &it: graph[node]){
+            if(visited[it] != 1){
+                if(checkCycle(it, numCourses, graph, visited, dfsVis, topoSort) == true){
+                    return true;
+                }
+            }
+            else if(dfsVis[it] == 1){
+                return true;
+            }
+        }
+        topoSort.push_back(node);
+        dfsVis[node] = 0;
+        return false;
+    }
+    
+    
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph = constructGraph(numCourses, prerequisites);
         
-        vector<int> indegree(numCourses, 0);
-        
-        for(int i =0; i< numCourses; i++){
-            for(auto &it: graph[i]){
-                indegree[it]++;
-            }
-        }
-        
-        queue<int> q;
+        vector<int> visited(numCourses, 0);
+        vector<int> dfsVis(numCourses, 0);
         vector<int> topoSort;
-        int ans = 0;
         
         for(int i =0; i < numCourses; i++){
-            if(indegree[i] == 0){
-                q.push(i);
-            }
-        }
-        
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            topoSort.push_back(node);
-            ans++;
-            for(auto &it: graph[node]){
-                indegree[it]--;
-                if(indegree[it] == 0){
-                    q.push(it);
+            if(visited[i] != 1){
+                if(checkCycle(i, numCourses, graph, visited, dfsVis, topoSort) == true){
+                    return {};
                 }
             }
         }
+        reverse(topoSort.begin(), topoSort.end());
+        return topoSort;
         
-        if(ans == numCourses){
-            return topoSort;
-        }
-        
-        return {};
     }
 };
