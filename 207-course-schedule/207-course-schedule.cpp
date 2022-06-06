@@ -9,44 +9,39 @@ public:
         return edges;
     }
     
+    bool dfsCheckcycle(int node, int numCourses, vector<vector<int>> &graph, vector<int> &visited , vector<int> &dfsVis) {
+        
+        visited[node] = 1;
+        dfsVis[node] = 1;
+        
+        for(auto &it: graph[node]){
+            if(visited[it] != 1){
+                if(dfsCheckcycle(it, numCourses, graph, visited, dfsVis ) == true){
+                    return true;
+                }
+            }
+            else if(dfsVis[it] == 1){
+                return true;
+            }
+        }
+        dfsVis[node] = 0;
+        return false;
+        
+    }
+    
     
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph = constructGraph(numCourses, prerequisites);
         
-        vector<int>indegree(numCourses, 0);
+        vector<int> visited(numCourses, 0);
+        vector<int> dfsVis(numCourses, 0);
         
-        for(int i =0; i < numCourses; i++){
-            for(auto &it: graph[i]){
-                indegree[it]++;
-            }
-        }
-        
-        queue<int> q;
-        int ans = 0;
-        
-        for(int i =0; i < numCourses; i++){
-            if(indegree[i] == 0){
-                q.push(i);
-                ans += 1;
-            }
-        }
-        
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            
-            for(auto it: graph[node]){
-                indegree[it] -= 1;
-                if(indegree[it] == 0){
-                    q.push(it);
-                    ans++;
-                }
-            }
-        }
-        
-        if(ans == numCourses){
-            return true;
-        }
-        return false;
+        for(int i =0; i< numCourses; i++ ){
+           
+            if(dfsCheckcycle(i, numCourses, graph, visited, dfsVis) == true){
+                return false;
+            } 
+        } 
+        return true;
     }
 };
