@@ -1,61 +1,53 @@
 class Solution {
 public:
-    vector<vector<int>> constructGraph(int n, vector<vector<int>>&edges)
-    {
-        vector<vector<int>> graph(n);
-        for(auto it: edges)
-        {
-            int v = it[0];
-            int u = it[1];
-            
-            graph[u].push_back(v);
-        }
+    vector<vector<int>>constructGraph(int numCourses, vector<vector<int>>& prerequisites ){
         
-        return graph;
+        vector<vector<int>> edges(numCourses);
+        
+        for(auto &it:prerequisites){
+            edges[it[1]].push_back(it[0]);
+        }
+        return edges;
     }
-    
     
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph = constructGraph(numCourses, prerequisites);
-        unordered_set<int> visited;
-        unordered_set<int> dfsVisited;
         
-        vector<int> toposort;
+        vector<int> indegree(numCourses, 0);
         
-        for(int currVertex = 0; currVertex < numCourses; currVertex++)
-        {
-            if(visited.find(currVertex) != visited.end())
-                continue;
-            
-            if(isCycle(graph, currVertex, visited, dfsVisited, toposort))
-                return {};
-        }
-        
-        reverse(toposort.begin(), toposort.end());
-        return toposort;
-        
-    }
-    
-    bool isCycle(vector<vector<int>> &graph, int currVertex, unordered_set<int>&visited, unordered_set<int>&dfsVisited, vector<int>& toposort)
-    {
-        visited.insert(currVertex);
-        dfsVisited.insert(currVertex);
-        
-        for(auto neighbour: graph[currVertex])
-        {
-            if(visited.find(neighbour) == visited.end())
-            {
-                if(isCycle(graph, neighbour, visited, dfsVisited, toposort))
-                    return true;
+        for(int i =0; i< numCourses; i++){
+            for(auto &it: graph[i]){
+                indegree[it]++;
             }
-            else if(dfsVisited.find(neighbour) != dfsVisited.end())
-                return true;
         }
         
-        toposort.push_back(currVertex);
-        dfsVisited.erase(currVertex);
+        queue<int> q;
+        vector<int> topoSort;
+        int ans = 0;
         
-        return false;
+        for(int i =0; i < numCourses; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+        
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topoSort.push_back(node);
+            ans++;
+            for(auto &it: graph[node]){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.push(it);
+                }
+            }
+        }
+        
+        if(ans == numCourses){
+            return topoSort;
+        }
+        
+        return {};
     }
-    
 };
