@@ -1,48 +1,50 @@
 class Solution {
 public:
     bool exist(vector<vector<char>>& board, string word) {
-        
         int row = board.size();
         int col = board[0].size();
         
-        for(int i =0; i< row; i++)
-        {
-            for(int j =0; j < col; j++)
-            {
-                if(board[i][j] == word[0])
-                    if(dfs(board, row, col, i, j, 0, word) == true)
+        for(int i =0; i < row; i++){
+            for(int j =0; j < col; j++){
+                if(board[i][j] == word[0]){
+                    if(checkDFS(i, j, board, word, row, col, 0) == true){
                         return true;
+                    }
+                }
             }
         }
-        
         return false;
     }
     
-    bool dfs(vector<vector<char>>& board, int row, int col, int currow, int curcol, int curidx, string word)
-    {
-        if(curidx == word.size())
-            return true;
+    bool checkDFS(int currRow, int currCol, vector<vector<char>>& board, string word, int row, int col, int currIdx) {
         
-        if(currow < 0 || currow >= row || curcol <0 || curcol >= col || board[currow][curcol] != word[curidx])
+        if(currIdx == word.size()){
+            return true;
+        }
+        
+        if(currRow < 0 || currCol < 0 || currRow >= row || currCol >= col || board[currRow][currCol] != word[currIdx] ){
             return false;
+        }
         
-        board[currow][curcol] = '0';
+        board[currRow][currCol] = '0';
         
-        if(dfs(board, row, col, currow + 1, curcol, curidx + 1, word) == true)
+        if(checkDFS(currRow + 1, currCol, board, word, row, col, currIdx+1) == true)
             return true;
         
-        if(dfs(board, row, col, currow - 1, curcol, curidx + 1, word) == true)
+        if(checkDFS(currRow - 1, currCol, board, word, row, col, currIdx+1) == true)
             return true;
         
-        if(dfs(board, row, col, currow, curcol + 1, curidx + 1, word) == true)
+        if(checkDFS(currRow, currCol + 1, board, word, row, col, currIdx+1) == true)
             return true;
         
-        if(dfs(board, row, col, currow, curcol - 1, curidx + 1, word) == true)
+        if(checkDFS(currRow, currCol - 1, board, word, row, col, currIdx+1) == true)
             return true;
         
-        board[currow][curcol] = word[curidx];
+        board[currRow][currCol] = word[currIdx];
         
         return false;
         
-    }
+    } 
+    
+    
 };
