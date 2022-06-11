@@ -1,25 +1,28 @@
 class Solution {
 public:
     int findPairs(vector<int>& nums, int k) {
-        unordered_map<int, int> mp;
+        sort(nums.begin(), nums.end());
+        int left = 0;
+        int right = 1;
+        int ans =0;
         
-        for(int i =0; i< nums.size(); i++){
-            mp[nums[i]]++;
-        }
-        
-        int result = 0;
-        
-        for(auto &it: mp){
-            int val = it.first;
-            int freq = it.second;
-            
-            if(k > 0 && mp.find(k + val) != mp.end()){
-                result++;
+        while(left < nums.size() && right < nums.size()){
+            if(left == right || nums[right] - nums[left] < k){
+                right++;
             }
-            else if(k == 0 && freq > 1){
-                result++;
+            else if (nums[right] - nums[left] > k){
+                left++;
+            }
+            else{
+                left++;
+                right++;
+                ans++;
+                
+                while(left < nums.size() && nums[left] == nums[left -1]){
+                    left++;
+                }
             }
         }
-        return result;
+        return ans;
     }
 };
