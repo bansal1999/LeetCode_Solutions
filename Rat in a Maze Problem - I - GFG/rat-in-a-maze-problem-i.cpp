@@ -10,65 +10,39 @@ using namespace std;
 
 class Solution{
     public:
-    vector<string> findPath(vector<vector<int>> &m, int n) {
-        // Your code goes here
-        vector<string> ans;
-        string currPath;
-        generatePath(m, n, 0, 0, currPath, ans);
-        
-        return ans;
-    }
-    
-    void generatePath(vector<vector<int>> &grid, int &n, int currRow, int currCol, string &currPath, vector<string> &path )
-    {
-        // base case -> invalid cells
-        if(currRow >= n || currRow < 0 || currCol >= n || currCol < 0)
-            return ;
-            
-        // cell blocked condition
-        if(grid[currRow][currCol] == 0)
+    void allPaths(int row, int col, vector<vector<int>> &m, int n, vector<string> &res, string ans ){
+        if(row >= n || row < 0 || col >= n || col < 0 || m[row][col] == 0) {
             return;
-            
-        //reached destination --> pushing the current string to answer
-        if(currRow == n-1 && currCol == n-1)
-        {
-              path.push_back(currPath);
-              return;
         }
         
-        //marking the current cell visited to avoid infinite recurssive calls
-        grid[currRow][currCol] = 0;
+        if(row == n- 1 && col == n-1){
+            res.push_back(ans);
+            return;
+        }
         
-        //up movement
-        currPath += "U";
-        generatePath(grid, n, currRow -1, currCol, currPath, path);
-        currPath.pop_back();
+        m[row][col] = 0;
         
-        //down movement
-        currPath += "D";
-        generatePath(grid, n, currRow + 1, currCol, currPath, path);
-        currPath.pop_back();
+        allPaths(row + 1, col, m, n, res, ans + "D");
+        allPaths(row, col + 1, m, n, res, ans + "R");
+        allPaths(row, col - 1, m, n, res, ans + "L");
+        allPaths(row - 1, col, m, n, res, ans + "U");
         
+        m[row][col] = 1;
         
-        //left movement
-        currPath += "L";
-        generatePath(grid, n, currRow , currCol - 1, currPath, path);
-        currPath.pop_back();
-        
-        
-        //right movement
-        currPath += "R";
-        generatePath(grid, n, currRow , currCol + 1, currPath, path);
-        currPath.pop_back();
- 
-        //BackTracking step
-        grid[currRow][currCol] = 1;
-        
-        return;
-
     }
     
+    
+    
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        // Your code goes here
+        vector<string> res;
+        string ans = "";
+        allPaths(0, 0, m, n, res, ans);
+        sort(res.begin(), res.end());
+        return res;
+    }
 };
+
     
 
 
