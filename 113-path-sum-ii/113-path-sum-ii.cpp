@@ -22,10 +22,12 @@ public:
         
         if(targetSum == 0 && root -> left == NULL && root -> right == NULL){
             result.push_back(path);
-        }else{
-            hasPath(root -> left, targetSum, result, path);
-            hasPath(root -> right, targetSum, result, path);
         }
+        
+    
+        hasPath(root -> left, targetSum, result, path);
+        hasPath(root -> right, targetSum, result, path);
+        
         
         path.pop_back();
         
