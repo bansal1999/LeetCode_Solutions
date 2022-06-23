@@ -11,15 +11,25 @@
  */
 class Solution {
 public:
-    bool hasPathSum(TreeNode* root, int targetSum) {
-        if(root == NULL)
+    bool hasPath(TreeNode* root, int targetSum){
+        if(root == NULL){
             return false;
+        }
         
-        targetSum -= root -> val;
+        if(root -> left == NULL  && root -> right == NULL){
+            return (targetSum - root->val == 0);
+        }
         
-        if(root -> left == NULL && root -> right == NULL)
-            return (targetSum == 0);
+        return hasPath(root -> left, targetSum - root -> val) || hasPath(root -> right, targetSum - root -> val);
+    }
+    
+    
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root == NULL){
+            return false;
+        }
         
-        return hasPathSum(root -> left, targetSum) || hasPathSum(root -> right , targetSum);
+        return hasPath(root, targetSum);
+        
     }
 };
