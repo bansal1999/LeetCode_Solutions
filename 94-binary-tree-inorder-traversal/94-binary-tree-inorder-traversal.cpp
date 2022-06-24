@@ -11,38 +11,27 @@
  */
 class Solution {
 public:
-    
- 
     vector<int> inorderTraversal(TreeNode* root) {
+        TreeNode* node = root;
+        stack<TreeNode*> inorder;
         vector<int> ans;
-        stack<TreeNode*> stk;
         
-        if(root == NULL)
-            return ans;
-        addLeftSubtree(root, stk);
-        
-        while(!stk.empty())
-        {
-            TreeNode* curr = stk.top();
-            stk.pop();
-            ans.push_back(curr -> val);
+        while(true){
             
-            if(curr -> right != NULL)
-                addLeftSubtree(curr->right, stk);
-            
+            if(node != NULL){
+                inorder.push(node);
+                node = node -> left;
+            }
+            else{
+                if(inorder.empty() == true){
+                    break;
+                }
+                node = inorder.top();
+                inorder.pop();
+                ans.push_back(node -> val);
+                node = node -> right;
+            }
         }
-        return ans;
-    }
-    
-    void addLeftSubtree(TreeNode* curr, stack<TreeNode*> &stk)
-    {
-        stk.push(curr);
-        while(curr -> left != NULL)
-        {
-            stk.push(curr -> left);
-            curr = curr -> left;
-        }
-        return;
-       
+       return ans; 
     }
 };
