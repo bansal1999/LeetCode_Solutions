@@ -16,21 +16,20 @@ public:
         stack<TreeNode*> inorder;
         vector<int> ans;
         
-        while(true){
+        
+        
+        while(node != NULL || !inorder.empty()){
             
-            if(node != NULL){
+            while(node != NULL){
                 inorder.push(node);
                 node = node -> left;
             }
-            else{
-                if(inorder.empty() == true){
-                    break;
-                }
+                
                 node = inorder.top();
                 inorder.pop();
                 ans.push_back(node -> val);
                 node = node -> right;
-            }
+            
         }
        return ans; 
     }
