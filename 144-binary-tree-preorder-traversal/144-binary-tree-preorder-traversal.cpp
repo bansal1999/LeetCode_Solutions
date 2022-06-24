@@ -11,6 +11,9 @@
  */
 class Solution {
 public:
+    // Interative approach
+    // call on the right subtree then left subtree to access the elements of Left first in LIFO manner
+    
     vector<int> preorderTraversal(TreeNode* root) {
         vector<int> ans;
         
