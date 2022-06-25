@@ -11,6 +11,12 @@
  */
 class Solution {
 public:
+    // using level order traversal
+    // approach: assigning 0 based indexing to the nodes of BT
+    // at each level we calculate the width by (last ID node - first ID node) at that level and 
+    // return the maximum ans
+    
+    
     int widthOfBinaryTree(TreeNode* root) {
         if(root == NULL){
             return 0;
@@ -22,7 +28,7 @@ public:
         while(!q.empty()){
             int size = q.size();
             int first, last;
-            long long int mmin = q.front().second;
+            //long long int mmin = q.front().second;
             
             for(int i =0; i< size; i++){
                 TreeNode* node = q.front().first;
