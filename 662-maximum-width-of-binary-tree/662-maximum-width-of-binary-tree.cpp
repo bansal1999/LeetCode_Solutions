@@ -26,7 +26,7 @@ public:
             
             for(int i =0; i< size; i++){
                 TreeNode* node = q.front().first;
-                long long int curr_id = q.front().second - mmin;
+                long long int curr_id = q.front().second;
                 q.pop();
                 
                 if(i == 0){
