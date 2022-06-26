@@ -7,84 +7,53 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-
-// Self Notes:
-// \U0001f34b Mark each node to its parent to traverse upwards
-// \U0001f34b We will do a BFS traversal starting from the target node
-// \U0001f34b As long as we have not seen our node previously, Traverse up, left, right until reached Kth distance
-// \U0001f34b when reached Kth distance, break out of BFS loop and remaining node's values in our queue is our result
-
 class Solution {
 public:
-    void markParents(unordered_map<TreeNode*, TreeNode*> &parentMap, TreeNode* root){
-        queue<TreeNode*> q;
-        q.push(root);
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*> parentMap;
+        set<TreeNode*> visited;
+        vector<int> ans;
         
-        while(!q.empty()){
-            TreeNode* curr = q.front();
-            q.pop();
-            
-            if(curr -> left){
-                parentMap[curr -> left] = curr;
-                q.push(curr -> left);
-            }
-            
-            if(curr -> right){
-                parentMap[curr -> right] = curr;
-                q.push(curr -> right);
-            }
-        }
+        populateMap(parentMap, root, NULL);
+        printDistancek(target, k, parentMap, visited, ans);
+        
+        return ans;
     }
     
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        unordered_map<TreeNode*, TreeNode*> parentMap;  // node -> parent
-        markParents(parentMap, root);
-        
-        unordered_map<TreeNode*, bool> visited;
-        queue<TreeNode*> q;
-        
-        visited[target] = true;
-        q.push(target);
-        
-        int currLevel = 0;
-        
-        while(!q.empty()){
-            
-            int size = q.size();
-            if(currLevel == k){
-                break;
-            }
-            currLevel++;
-            
-            for(int i = 0; i < size; i++){
-                TreeNode* curr = q.front();
-                q.pop();
-                
-                if(curr -> left && !visited[curr -> left]){
-                    q.push(curr -> left);
-                    visited[curr -> left] = true;
-                }
-                
-                if(curr -> right && !visited[curr -> right]){
-                    q.push(curr -> right);
-                    visited[curr -> right] = true;
-                }
-                
-                if(parentMap[curr] && !visited[parentMap[curr]]){
-                    q.push(parentMap[curr]);
-                    visited[parentMap[curr]] = true;
-                }
-                
-            }
-            
+    void populateMap(unordered_map<TreeNode*, TreeNode*> &parentMap, TreeNode* currNode, TreeNode* currParent){
+        if(currNode == NULL){
+            return;
         }
         
-        vector<int> result;
-        while(!q.empty()){
-            TreeNode* curr = q.front();
-            q.pop();
-            result.push_back(curr -> val);
-        }
-        return result;
+        parentMap[currNode] = currParent;
+        populateMap(parentMap, currNode -> left, currNode);
+        populateMap(parentMap, currNode -> right, currNode);
+        
+        return;
     }
+    
+    void printDistancek(TreeNode* currNode, int k,  unordered_map<TreeNode*, TreeNode*> &parentMap, set<TreeNode*> &visited, vector<int> &ans){
+        
+        if(currNode == NULL || visited.find(currNode) != visited.end() || k < 0){
+            return;
+        }
+        
+        visited.insert(currNode);
+        
+        if(k == 0){
+            ans.push_back(currNode -> val);
+            return;
+        }
+        
+        printDistancek(currNode -> left, k -1, parentMap, visited, ans);
+        printDistancek(currNode -> right, k -1, parentMap, visited, ans);
+        printDistancek(parentMap[currNode], k-1, parentMap, visited, ans);
+        
+        return;
+        
+    }
+    
+    
+    
+    
 };
