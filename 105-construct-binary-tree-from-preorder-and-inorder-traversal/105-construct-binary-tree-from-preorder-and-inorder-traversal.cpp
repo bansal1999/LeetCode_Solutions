@@ -11,6 +11,15 @@
  */
 class Solution {
 public:
+    // 1st element of the preorder array is the root of the BT
+    //initializse preindex to 0
+    //inital range of index = (0 to n -1)
+    // make a new node of value located on preorder[preindex]
+    // Locate the index of the root in inorder array --> currentIndex
+    // increment the  preindex of preorder array
+    // attacth the left subtree of BT in the index range (0 to CI - 1)
+    // attach the right subtree of BT in the range (CI + 1 to n -1)
+    
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         unordered_map<int, int> mp;
         populateMap(mp, inorder);
