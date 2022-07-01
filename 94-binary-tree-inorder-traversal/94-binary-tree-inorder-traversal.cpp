@@ -11,26 +11,35 @@
  */
 class Solution {
 public:
+    //Moris Traversal --> SC -> O(1)
+    
     vector<int> inorderTraversal(TreeNode* root) {
-        TreeNode* node = root;
-        stack<TreeNode*> inorder;
-        vector<int> ans;
+        vector<int> inorder;
+        TreeNode* curr = root;
         
-        
-        
-        while(node != NULL || !inorder.empty()){
-            
-            while(node != NULL){
-                inorder.push(node);
-                node = node -> left;
+        while(curr != NULL){
+            if(curr -> left == NULL){
+                inorder.push_back(curr -> val);
+                curr = curr ->right;
             }
+            else{
+                TreeNode* prev = curr -> left;
+                while(prev -> right && prev -> right != curr){
+                    prev = prev -> right;
+                }
                 
-                node = inorder.top();
-                inorder.pop();
-                ans.push_back(node -> val);
-                node = node -> right;
-            
+                if(prev -> right == NULL){
+                    prev -> right = curr;
+                    curr = curr -> left;
+                }
+                else{
+                    prev -> right = NULL;
+                    inorder.push_back(curr -> val);
+                    curr = curr -> right;
+                }
+            }
         }
-       return ans; 
+        
+        return inorder;
     }
 };
