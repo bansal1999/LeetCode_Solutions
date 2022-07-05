@@ -1,29 +1,34 @@
 class Solution {
 public:
-    int helper(int i, int j, string &str1, string &str2, vector<vector<int>> &dp)
-    {
-        if(i < 0)
-            return j +1;
-        if(j < 0)
-            return i + 1;
+    int helper(string &word1, string &word2, int ind1, int ind2, vector<vector<int>> &dp){
+        if(ind1 < 0){
+            return ind2 + 1;
+        }
         
-        if(dp[i][j] != -1)
-            return dp[i][j];
+        if(ind2 < 0){
+            return ind1 + 1;
+        }
         
-        if(str1[i] == str2[j])
-            return dp[i][j] = helper(i-1, j-1, str1, str2, dp);
+        if(dp[ind1][ind2] != -1){
+            return dp[ind1][ind2];
+        }
         
-        return dp[i][j] = 1 + min(helper(i, j-1, str1, str2, dp) , 
-                                min(helper(i-1, j, str1, str2, dp), 
-                                    helper(i-1, j-1, str1, str2, dp)));
+        if(word1[ind1] == word2[ind2]){
+            return dp[ind1][ind2] = 0 + helper(word1, word2, ind1 -1, ind2 - 1, dp );
+        }
+        else{
+            return dp[ind1][ind2] = 1 + min(helper(word1, word2, ind1 - 1, ind2, dp) , min(helper(word1, word2, ind1, ind2 - 1, dp) , helper(word1, word2, ind1 -1, ind2 - 1, dp)));
+        }
         
     }
+    
     
     int minDistance(string word1, string word2) {
         int n = word1.size();
         int m = word2.size();
         
         vector<vector<int>> dp(n, vector<int>(m, -1));
-        return helper(n-1, m-1, word1, word2, dp);
+        
+        return helper(word1, word2, n -1, m-1, dp);
     }
 };
