@@ -14,7 +14,7 @@ public:
     int maximumSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
         
-        map<int, vector<int>> mp;
+        unordered_map<int, vector<int>> mp;
         
         for(int i =0; i < nums.size(); i++){
             int temp = nums[i];
