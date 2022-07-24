@@ -16,39 +16,48 @@ public:
             return "#";
         }
         
-        string leftSerialize = serialize(root -> left);
-        string rightSerialize = serialize(root -> right);
+        string leftAns = serialize(root -> left);
+        string rightAns = serialize(root -> right);
         
-        return to_string(root -> val) + "," + leftSerialize + "," + rightSerialize;
+        return to_string(root -> val) + "," + leftAns + "," + rightAns;
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-    queue<string> q;
-    string s;
-    for(int i=0;i<data.size();i++)
-    {
-        if(data[i]==',')
-        {
-            q.push(s);
-            s="";
-            continue;
+        queue<string> q;
+        string s;
+        
+        for(int i = 0; i < data.size(); i++){
+            if(data[i] == ','){
+                q.push(s);
+                s = "";
+                continue;
+            }
+            s += data[i];
         }
-        s+=data[i];
+        
+        if(s.size() != 0){
+            q.push(s);
+        }
+        
+        return helper(q);
     }
-        if(s.size()!=0)q.push(s);
-        return deserialize_helper(q);
-    }
-
-    TreeNode* deserialize_helper(queue<string> &q) {
-        string s=q.front();
+    
+    TreeNode* helper(queue<string> &q){
+        string node = q.front();
         q.pop();
-        if(s=="#")return NULL;
-        TreeNode* root=new TreeNode(stoi(s));
-        root->left=deserialize_helper(q);
-        root->right=deserialize_helper(q);
+        
+        if(node == "#")
+            return NULL;
+        
+        TreeNode* root = new TreeNode(stoi(node));
+        root -> left = helper(q);
+        root -> right = helper(q);
+        
         return root;
     }
+    
+    
 };
 
 // Your Codec object will be instantiated and called as such:
