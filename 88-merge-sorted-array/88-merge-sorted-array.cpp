@@ -20,11 +20,9 @@ public:
             index2++;
         }
         
-     } 
+     }
         
-        
-        
-        while(index1<m){
+    while(index1<m){
             ans.push_back(nums1[index1]);
             index1++;
         }
@@ -37,7 +35,6 @@ public:
         for(int i=0;i<m+n;i++){
             nums1[i]=ans[i];
         }
-       
 
     }
 };
