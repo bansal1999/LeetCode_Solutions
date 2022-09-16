@@ -5,8 +5,7 @@ public:
         int maxSum = nums[0];
         
         for(int i = 1; i < nums.size(); i++){
-            int num = nums[i];
-            currSum= max(currSum + num, num);
+            currSum = max(nums[i], currSum + nums[i]);
             maxSum = max(maxSum, currSum);
         }
         
