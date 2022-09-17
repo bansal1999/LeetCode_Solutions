@@ -20,30 +20,25 @@ public:
 
 class Solution {
 public:
+    void helper(Node* root, vector<int> &ans){
+        if(root == NULL)
+            return;
+        
+        ans.push_back(root -> val);
+        for(int i =0; i < root -> children.size(); i++){
+            helper(root -> children[i], ans);
+        }
+        
+        return;
+    }
+    
+    
     vector<int> preorder(Node* root) {
         vector<int> ans;
-        stack<Node*> stk;
         
-        if(root == NULL)
-            return ans;
-        
-        stk.push(root);
-        
-        while(!stk.empty())
-        {
-            Node* currNode = stk.top();
-            stk.pop();
-            ans.push_back(currNode -> val);
-            
-            vector<Node*> children = currNode -> children;
-            int n = children.size();
-            
-            for(int i = n-1; i>= 0; i--)
-            {
-                stk.push(children[i]);
-            }
-        }
+        helper(root, ans);
         
         return ans;
     }
+    
 };
