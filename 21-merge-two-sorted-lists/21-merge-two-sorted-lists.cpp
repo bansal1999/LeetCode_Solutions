@@ -8,20 +8,18 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode *fh = NULL, *ft = NULL;
+        ListNode* fh = NULL, *ft = NULL;
         
         if(list1 == NULL)
             return list2;
-        
         if(list2 == NULL)
             return list1;
         
         while(list1 != NULL && list2 != NULL){
-            if(list1 -> val < list2 -> val){
+            if(list1 -> val < list2 -> val ){
                 if(fh == NULL){
                     fh = list1;
                     ft = list1;
@@ -34,7 +32,7 @@ public:
             }
             else{
                 if(fh == NULL){
-                    fh  = list2;
+                    fh = list2;
                     ft = list2;
                 }
                 else{
@@ -48,11 +46,10 @@ public:
         if(list1 != NULL){
             ft -> next = list1;
         }
-        
         if(list2 != NULL){
             ft -> next = list2;
         }
-        return fh;
         
+        return fh;
     }
 };
