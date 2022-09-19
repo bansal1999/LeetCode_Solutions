@@ -6,49 +6,25 @@ public:
             return image;
         }
         
-        int row = image.size();
-        int col = image[0].size();
+        int m = image.size();
+        int n = image[0].size();
         
-        // helper(image, sr, sc, newColor, image[sr][sc], row, col);
-        
-        int color = image[sr][sc];
-        queue<pair<int, int>> q;
-        q.push({sr, sc});
-        
-        while(!q.empty()){
-            
-            int currRow = q.front().first;
-            int currCol = q.front().second;
-            q.pop();
-            
-            if(currRow < 0 || currCol < 0 || currRow >= row || currCol >= col || image[currRow][currCol] != color)
-                continue;
-            
-            image[currRow][currCol] = newColor;
-            
-            q.push({currRow + 1 , currCol});
-            q.push({currRow - 1 , currCol});
-            q.push({currRow , currCol + 1});
-            q.push({currRow , currCol - 1});
-            
-        }
-        
+        helper(image, sr, sc, image[sr][sc], newColor, m, n);
         return image;
     }
     
-//     void helper(vector<vector<int>>& image, int currRow, int currCol, int newColor, int color, int row, int col) {
+    void helper(vector<vector<int>>& image, int row, int col, int color, int newColor, int m, int n){
+        if(row >= m  || row < 0 || col >= n || col < 0 || image[row][col] != color){
+            return;
+        }
         
-//         if(currRow < 0 || currCol < 0 || currRow >= row || currCol >= col || image[currRow][currCol] != color){
-//             return;
-//         }
+        image[row][col] = newColor;
         
-//         image[currRow][currCol] = newColor;
+        helper(image, row + 1, col, color, newColor, m, n);
+        helper(image, row, col + 1, color, newColor, m, n);
+        helper(image, row - 1, col, color, newColor, m, n);
+        helper(image, row, col - 1, color, newColor, m, n);
         
-//         helper(image, currRow + 1, currCol, newColor, color, row, col);
-//         helper(image, currRow -1, currCol, newColor, color, row, col);
-//         helper(image, currRow, currCol + 1, newColor, color, row, col);
-//         helper(image, currRow, currCol - 1, newColor, color, row, col);
         
-//         return;
-//     }
+    }
 };
