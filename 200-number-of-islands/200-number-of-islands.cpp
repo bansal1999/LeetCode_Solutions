@@ -1,40 +1,32 @@
 class Solution {
 public:
-    void bfs(vector<vector<char>>& grid,int currentRow,int currentCol,int m,int n){
-        queue<pair<int,int>>q;
-        q.push({currentRow,currentCol});
-        
-        while(!q.empty()){
-            auto it = q.front();
-            q.pop();
-            int curr_row = it.first;
-            int curr_col = it.second;
-            if(curr_row < 0 || curr_row>=m ||curr_col < 0 || curr_col >=n || grid[curr_row][curr_col] == '0'){
-            continue;
-            }
-            grid[curr_row][curr_col] = '0';
-            q.push({curr_row-1,curr_col});
-            q.push({curr_row,curr_col+1});
-            q.push({curr_row+1,curr_col});
-            q.push({curr_row,curr_col-1});
-        }
-        return;
-    }
-    
-    
-    int numIslands(vector<vector<char>>& grid)  {
+    int numIslands(vector<vector<char>> grid) {
         int m = grid.size();
         int n = grid[0].size();
-        
         int ans = 0;
-        for(int currentRow = 0;currentRow < m;currentRow++){
-            for(int currentCol = 0;currentCol < n;currentCol++){
-                if(grid[currentRow][currentCol] == '1'){
-                    ans+=1;
-                    bfs(grid,currentRow,currentCol,m,n);
+        
+        for(int i =0; i < m; i++){
+            for(int j= 0; j < n; j++){
+                if(grid[i][j] == '1'){
+                    ans += 1;
+                    helper(grid, i, j, m, n);
                 }
             }
         }
         return ans;
     }
+    
+    void helper(vector<vector<char>>& grid, int row , int col, int m, int n){
+        if(row >= m || row < 0 || col >= n || col < 0 || grid[row][col] == '0'){
+            return;
+        }
+        
+        grid[row][col] = '0';
+        
+        helper(grid, row + 1, col, m, n);
+        helper(grid, row - 1, col, m, n);
+        helper(grid, row, col + 1, m, n);
+        helper(grid, row, col - 1, m, n);
+    }
+    
 };
